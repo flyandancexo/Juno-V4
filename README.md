@@ -1,5 +1,5 @@
 # Juno V4
-## A Ultimate AVR MCU Development Board LCD ADC Communication SPI UART I2C
+## A Ultimate AVR MCU Development Board LCD ADC Communication SPI UART I2C - new Bootloader AVR109 Butterfly CH340g
 
 ![JunoV4](https://github.com/flyandancexo/Juno-V4/assets/66555404/3377e90b-008e-496b-9c92-183e70125ebf)
 
