@@ -1,5 +1,5 @@
 # Juno V4 - A Ultimate AVR MCU Development Board
-## LCD ADC Communication SPI UART I2C - new Bootloader AVR109 Butterfly CH340g
+### LCD ADC Communication SPI UART I2C - new Bootloader AVR109 Butterfly CH340g
 
 Juno V4 doesn't look much from the surface with ordinary components, but it's created with extra-ordinary attention to details with expertly draw copper traces that ensure communication via those channels are stable and bug free. The main thing that V4 does is communication via the 3 hardware serial interface: SPI, UART and I2C; The LCD is also a type of half parallel and half serial interface that with the bits exchanged, magic happens. The LCD is powered by extra-ordinary software controlled contrast and backlit brightness level, and a very light weight and high quality library. 
 
@@ -13,7 +13,7 @@ void LCD_COM( uint8_t comm);      //Write Command
 void LCD_RAM( uint8_t data );     //Write to SRAM
 uint8_t LCD_Read( void );         //Read Data
 uint8_t LCD_Busy( void );         //LCD is busy now (0x80 == busy)
-#define LCD_Wait() while ( LCD_Busy()&0x80 )  //Macro is wait 40us-1.64ms
+#define LCD_Wait() while ( LCD_Busy()&0x80 )  //Macro to wait 40us-1.64ms
 
 //Initialization and LCD control
 void LCD_init_4bitMode( void );  //4-bit, 2-line, 5x8, Address++, Display-ON
