@@ -56,9 +56,9 @@ void LCD_LoadNewCharFlash( uint8_t *Newchar, uint8_t add ); //From Flash
 int main(void){
   LCD_init_4bitMode();
 
-  LCD_writeText( firstline|0, "Hello", 5);
-  LCD_writeText( firstline|5, " World", 6); //world + space == 6 char
-  LCD_writeText( secondline|0, "Juno V4 2024 FD!!", 16);
+  LCD_writeText( LCD_line1|0, "Hello", 5);
+  LCD_writeText( LCD_line1|5, " World", 6); //world + space == 6 char
+  LCD_writeText( LCD_line2|0, "Juno V4 2024 FD!!", 16);
 }//--main 
 ```
 ![LCDeA](https://github.com/flyandancexo/Juno-V4/assets/66555404/2564e1cf-26f2-42cd-9e1d-02ee8c0a552f)
@@ -74,12 +74,12 @@ int main(void){
 int main(void){
   LCD_init_4bitMode();
 
-  LCD_writeText( firstline|0, "X2 Write Numbers", 16);
-  LCD_writeText( secondline|0, "H:0x", 4);
-  LCD_writeHex( secondline|4, 0xABCD, 4 ); //Max:0xFFFF
+  LCD_writeText( LCD_line1|0, "X2 Write Numbers", 16);
+  LCD_writeText( LCD_line2|0, "H:0x", 4);
+  LCD_writeHex( LCD_line2|4, 0xABCD, 4 ); //Max:0xFFFF
   
-  LCD_writeText( secondline|9, "#:", 2);
-  LCD_writeDec( secondline|11, 12345, 5 );  //Max:65535
+  LCD_writeText( LCD_line2|9, "#:", 2);
+  LCD_writeDec( LCD_line2|11, 12345, 5 );  //Max:65535
   
 }//--main 
 ```
@@ -117,14 +117,14 @@ int main(void){
     LCD_LoadNewCharFlash( &(CustomChar[i]), i);
   }
   
-  LCD_writeText( firstline|0, "X3 Custom Chars!", 16);
+  LCD_writeText( LCD_line1|0, "X3 Custom Chars!", 16);
 
-  LCD_COM( setADD|secondline|0 ); //set LCD RAM Address to second line + 0
+  LCD_COM( LCD_setADD|LCD_line2|0 ); //set LCD RAM Address to second line + 0
   for( uint8_t i=0; i<8; i++ ){
     LCD_RAM(i);                   //Write 8 custom characters to second line
   }
 
-  LCD_COM( setADD|secondline|15 ); //set LCD RAM Address to second line + 15
+  LCD_COM( LCD_setADD|LCD_line2|15 ); //set LCD RAM Address to second line + 15
   LCD_RAM(CC_BIG_ARROW);           //Write CC_BIG_ARROW to last space on 2nd line
 }//--main 
 ```
@@ -161,14 +161,14 @@ int main(void){
     LCD_LoadNewChar( &(CustomChar[i]), i);
   }
   
-  LCD_writeText( firstline|0, "X4 CChars <- RAM", 16);
+  LCD_writeText( LCD_line1|0, "X4 CChars <- RAM", 16);
 
-  LCD_COM( setADD|secondline|0 ); //set LCD RAM Address to second line + 0
+  LCD_COM( LCD_setADD|LCD_line2|0 ); //set LCD RAM Address to second line + 0
   for( uint8_t i=0; i<8; i++ ){
     LCD_RAM(i);                   //Write 8 custom characters to second line
   }
 
-  LCD_COM( setADD|secondline|15 ); //set LCD RAM Address to second line + 15
+  LCD_COM( LCD_setADD|LCD_line2|15 ); //set LCD RAM Address to second line + 15
   LCD_RAM(CC_BIG_ARROW);           //Write CC_BIG_ARROW to last space on 2nd line
 }//--main 
 ```
@@ -196,9 +196,9 @@ LCD_init_4bitMode();
 LCD_LoadNewChar( &CustomChar1[0], CC_SMILE_FACE);
 LCD_LoadNewChar( &CustomChar2[0], CC_UP_ARROW);
 
-LCD_COM( setADD|firstline|0 ); //set LCD RAM Address to second line + 0
+LCD_COM( LCD_setADD|LCD_line1|0 ); //set LCD RAM Address to second line + 0
 LCD_RAM( CC_SMILE_FACE );
-LCD_writeText( firstline|1, "Time:  ", 7 ); //7 characters (2-space)
+LCD_writeText( LCD_line1|1, "Time:  ", 7 ); //7 characters (2-space)
 
 uint8_t thr=0, tmin=0, tsec=0;
 uint8_t arrowLOC=0;
@@ -218,7 +218,7 @@ uint8_t ccTOG=0;
   
   LCD_writeDec(13, tsec, 2);
   
-  LCD_COM( setADD|secondline|arrowLOC );
+  LCD_COM( LCD_setADD|LCD_line2|arrowLOC );
   if( ccTOG ){ LCD_RAM(CC_UP_ARROW); }
   else { LCD_RAM(CC_SMILE_FACE); }
   
@@ -236,7 +236,7 @@ uint8_t ccTOG=0;
     
     //These 2 lines of code clear second line (write space char to second line)
     //Write time is about 16*40us=640us, and is faster than 1.64ms using clear or home
-    LCD_COM( setADD|secondline|0 );
+    LCD_COM( LCD_setADD|LCD_line2|0 );
     for( uint8_t i=0; i<16; i++ ){ LCD_RAM(' '); }
   }
   }//While-END
@@ -293,7 +293,7 @@ uint8_t secondLine[16];
     
     secondLine[percentage/5]=percentage%5; //The magical line of code
     
-    LCD_writeText( secondline|0, secondLine, 16); //output secondLine to 2nd line
+    LCD_writeText( LCD_line2|0, secondLine, 16); //output secondLine to 2nd line
   
   }//While-END
 }//--main 
@@ -348,7 +348,7 @@ uint8_t secondLine[16];
     LCD_writeDec(sizeof(text)-1, LCD_contrast*125/100, 3);
     
     secondLine[LCD_contrast/5]=LCD_contrast%5; //Magical Line
-    LCD_writeText( secondline|0, secondLine, 16); //Output
+    LCD_writeText( LCD_line2|0, secondLine, 16); //Output
   
   }//While-END
 }//--main 
