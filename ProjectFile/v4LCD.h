@@ -1,5 +1,5 @@
 /*###############################################################
-# Advanced 2x16 LCD Code - Declaration File 
+# Advanced 2x16 LCD Code - Declaration File V1.2
 # Note: 4-bit LCD driver with Write and Read Enable
 
 //LCD Hardware Connections:
