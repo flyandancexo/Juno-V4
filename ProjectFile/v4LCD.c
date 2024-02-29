@@ -1,5 +1,5 @@
 /*###############################################################
-# Advanced 2x16 LCD Code - Implementation File 
+# Advanced 2x16 LCD Code - Implementation File V1.2
 # Note: 4-bit LCD driver with Write and Read Enable
 
 Most LCD operations take 40us, except clear display and return home which take 1.63ms;
