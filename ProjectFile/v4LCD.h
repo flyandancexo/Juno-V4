@@ -21,6 +21,9 @@
 #define LCD_line2 0x40     //Second line starts at address 0x40
 #define LCD_setADD 0x80    //0x80 is the set address code
 
+#define LCD_CO OCR0B
+#define LCD_BL OCR0A
+
 //default mode enabled - (encoded) <<<---------
 #define LCD_functionMode 0x28 //4-bit, 2-line, 5x8
 #define LCD_entryMode 0x06    //Address Increment, No-shift
