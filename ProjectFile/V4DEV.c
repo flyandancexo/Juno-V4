@@ -27,7 +27,11 @@ OCR2A = 99;
 
 //ADC enable in Free running mode
 ADCSRA= (1<<ADEN)|(1<<ADSC)|(1<<ADATE)|2;  
+ADMUX= (1<<REFS0)|(1<<ADLAR)|7; //C7 is the POT input
 ADCSRB= 0;
+
+_delay_us(100);
+adcPOT=ADCH;    //We need to wait and initialize adcPOT, so it can be used right away
 
 DDRB |=(1<<1); // B1 LED for debug and simple status display
 PORTB|=(1<<1); // Active LOW, turn it OFF initially
@@ -64,7 +68,8 @@ void serialWriteString( char *text ){
 //#################################################################################
 //### Button code
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-but_ti but={ .PS=0, .CS=0 };  //button data initialized, to ensure button logic not triggered by random data.
+//button data initialized, to ensure button logic not triggered by random data.
+but_ti but={ .PS=0, .CS=0, .released=0 };  
 
 buttonScan( void ){
 
