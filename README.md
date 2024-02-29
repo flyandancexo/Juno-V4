@@ -477,7 +477,7 @@ A world's fastest bootloader has been developed for V4 very loosely based on AVR
 avrdude.exe -c avr109 -p m88 -b 1000000 -P COM3 -U flash:w:"hexFile.hex":i -v
 ```
 
-or use my IDE-less batch file on a windows, 
+or use my IDE-less batch file on windows, 
 
 ![V4_upload](https://github.com/flyandancexo/Juno-V4/assets/66555404/fd8f66a3-996a-4c4b-98b5-d1d166f6b9b7)
 
