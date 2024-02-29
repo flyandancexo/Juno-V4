@@ -356,10 +356,132 @@ uint8_t secondLine[16];
 ![X7](https://github.com/flyandancexo/Juno-V4/assets/66555404/0dbf6f17-4777-4c1d-ab6d-14c146b3afb2)
 
 
-
 ## Juno ADC:
 
+Getting accurate ADC readings, especially with multiple input can be hard, but it's actually extremely easy. The trick is to add a delay after the channel has been changed, as demonstrated here. _delay_us() or _delay_ms() should only be used for testing purpose only. 
+
+### ADC Example 1: Read 2 ADC Channels at the same time
+```
+//   text    data     bss     dec     hex filename
+//   1206      12       0    1218     4c2 Juno_AVR.elf
+   
+#include "V4DEV.h"
+
+int main(void){
+LCD_init_4bitMode();
+
+//ADC Input, 8-bit mode, Vref=VCC, CPU_clock/4
+ADMUX= (1<<REFS0)|(1<<ADLAR)|6; //C6 is the input
+ADCSRA= (1<<ADEN)|(1<<ADSC)|(1<<ADATE)|2;  
+ADCSRB= 0;  //Free running mode
+
+  while(1){
+  LCD_writeText( 0, "Button", 6);
+  LCD_writeText( 13, "POT", 3);
+  
+  // All release   = 5v            [adc value= 255]
+  // first button  = 0v            [adc value= 0]
+  // second button = 5*1/2=2.5v    [adc value= 255*1/2=127.5]
+  // third button  = 5*2/3=3.3v    [adc value= 255*2/3=170]
+  // fourth button = 5*3/4=3.7v    [adc value= 255*3/4=191]
+  ADMUX= (1<<REFS0)|(1<<ADLAR)|6; //C6 is the input
+  _delay_us(100);//Because ADC doesn't convert instantly, we need some delay
+  LCD_writeDec( 0x40, ADCH, 3 );
+
+  //POT 0-255
+  ADMUX= (1<<REFS0)|(1<<ADLAR)|7; //C7 is the input
+  _delay_us(100);//Because ADC doesn't convert instantly, we need some delay
+  LCD_writeDec( 0x40|13, ADCH, 3 );
+  
+  }//While-END
+}//--main 
+```
+![X8-adc](https://github.com/flyandancexo/Juno-V4/assets/66555404/9029f29a-6864-4d5e-ae6b-4cfdc7383a51)
+
+
+
+### ADC Example 2: Using the potentiometer as a navigator
+```
+//   text    data     bss     dec     hex filename
+//   1234      26       0    1260     4ec Juno_AVR.elf
+   
+#include "V4DEV.h"
+
+int main(void){
+LCD_init_4bitMode();
+uint8_t LCDCustomChar[8]={ 0x0, 0x4, 0xe, 0x1f, 0x0, 0xe, 0xe, 0x0 };//Big Up Arrow
+#define BIG_UPARROW 0
+
+LCD_LoadNewChar (LCDCustomChar, BIG_UPARROW);
+
+//ADC Input, 8-bit mode, Vref=VCC, CPU_clock/4
+ADMUX= (1<<REFS0)|(1<<ADLAR)|7; //C7 is the input
+ADCSRA= (1<<ADEN)|(1<<ADSC)|(1<<ADATE)|2;  
+ADCSRB= 0;  //Free running mode
+
+  LCD_writeText( 0, "LCD Arrow Naviga", 16);
+  
+  while(1){
+
+  LCD_COM( 0x80|0x40|(ADCH/16) ); // 256/16=16
+  LCD_RAM( BIG_UPARROW );
+  
+  //Write space above and below the arrow position 
+  LCD_COM( (0x80|0x40|(ADCH/16))+1 );
+  LCD_RAM( ' ' );
+  LCD_COM( (0x80|0x40|(ADCH/16))-1 );
+  LCD_RAM( ' ' );  
+  
+  }//While-END
+}//--main 
+```
+![X9-adc_arrow](https://github.com/flyandancexo/Juno-V4/assets/66555404/2e7038a1-a363-4fec-b47e-c781b54e1136)
+
+
+
+### ADC Example 3: ADC button Library + ADC potentiometer
+```
+//   text    data     bss     dec     hex filename
+//   1610      26       6    1642     66a Juno_AVR.elf
+   
+#include "V4DEV.h"
+
+int main(void){
+V4_initi();
+uint8_t test=123;
+  while(1){
+  buttonScan();
+  LCD_writeText( 0, "Potentiometr", 12 );
+  LCD_writeDec( 13, adcPOT, 3 );
+  
+  LCD_writeText( 0x40, "ADC Button->", 12 );
+  LCD_writeDec( 0x40|13, test, 3 );
+  
+  if(bra){ test++;}
+  if(brb){ test--;}
+  if(brc){ test=88;}
+  if(brd){ test=111;}
+  
+  }//While-END
+}//--main 
+```
+![X10-adc_button_pot](https://github.com/flyandancexo/Juno-V4/assets/66555404/1a6be02b-55bb-45ba-9caf-744fcb16c95a)
+
+
+
 ## Juno Bootloader (FDxboot):
+
+A world's fastest bootloader has been developed for V4 very loosely based on AVR109, and new code can be uploaded to board using the following command line, 
+
+```
+avrdude.exe -c avr109 -p m88 -b 1000000 -P COM3 -U flash:w:"hexFile.hex":i -v
+```
+
+or use my IDE-less batch file on a windows, 
+
+##Add IDE-less Photo
+
+or anything else of your choice.
 
 To support the creation of more quality project, do donate whatever amount that you are comfortable with.
 
