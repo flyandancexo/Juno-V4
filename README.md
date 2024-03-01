@@ -1,22 +1,21 @@
 # Juno V4 - A Ultimate AVR MCU Development Board
 ### LCD ADC Communication SPI UART I2C - new Bootloader AVR109 Butterfly CH340g
 
-Juno V4 doesn't look much from the surface, but it's been crafted with extra-ordinary attention to details with expertly draw copper traces that ensure communications via those channels are stable and bug free. The main thing that V4 does is communication via the 3 hardware serial interface: SPI, UART and I2C; The LCD is also a type of half parallel, half serial, and half duplex interface that with the bits exchanged, miracle happens. The LCD is powered by extra-ordinary software controlled contrast and backlit brightness level, and a very light weight and high quality library. A potentiometer and 4 ADC buttons are included as a way to navigate the board, and as a way to demonstrate high quality and high accurate voltage readings via Analog to Digital Converter.  
+Juno V4 doesn't look much from the surface, but it's been crafted with extra-ordinary attention to details with expertly draw copper traces that ensure communications via those channels are stable and bug free. The main thing that V4 does is communication via the 3 hardware serial interface: SPI, UART and I2C. The LCD is also a type of half parallel, half serial, and half duplex interface that with the bits exchanged, miracle happens. The LCD is powered also by extra-ordinary software controlled contrast and backlit, and a very light weight and high quality library. 4 ADC buttons, A potentiometer and a physical switch are included as a way to navigate the board, and as a way to demonstrate high quality and high accurate voltage readings via Analog to Digital Converter.
 
 PS. A world's fastest bootloader has been written for the V4 with a tested maximum upload speed of 45.1 kB/s Write and 51.2 kB/s Read; Indeed, it's a little extra-ordinary. 
 
 ![JunoV4](https://github.com/flyandancexo/Juno-V4/assets/66555404/3377e90b-008e-496b-9c92-183e70125ebf)
 
-
 ## Juno V4 - LCD Hardware and LCD Software Features: 
 - 4-bit mode - 9 I/O pins from MCU
 - Support Read and Write LCD operations
-- Fastest LCD operation using busy polling instead of timer delay
-- LCD Contrast and LCD brightness are controlled by software
-- High quality and light weight code that supports write text, decimal and hexadecimal
-- 8 custom characters creation from SRAM or Flash
+- Fastest LCD operation using busy polling instead of a delay timer
+- LCD Contrast and LCD backlit brightness are controlled by software
+- High quality and light weight code that supports write text, decimal, hexadecimal, and more
+- 8 custom characters creation either from SRAM or Flash
 - 7 simple examples to demonstrate how easy it's to control a LCD
-- More Advanced examples will be provided later plus a LCD UI
+- More Advanced examples are provided plus a simple LCD UI
 - This is the best LCD library in the point of view of a good development board and for the above features
 
 ### LCD Functions:
@@ -358,7 +357,9 @@ uint8_t secondLine[16];
 
 ## Juno ADC:
 
-Getting accurate ADC readings, especially with multiple input can be hard, but it's actually extremely easy. The trick is to add a delay after the channel has been changed, as demonstrated here. _delay_us() or _delay_ms() should only be used for testing purpose only. 
+The decision to use 2 ADC channels as inputs from 4 buttons and 1 potentiometer is because C6 and C7 can only be used as ADC pins, and these 2 simple hardware can be used to explore ADC in a lower level, and finally they can also be very useful input for development. Getting accurate ADC readings, especially with multiple inputs can be hard, but it's actually extremely easy. The trick is to add a delay after the selected channel has been changed. 
+
+Note: the library does reading back from these 2 channels fine already. To plays with ADC on your own, don't use V4_initi(); Use LCD_init_4bitMode() instead. 
 
 ### ADC Example 1: Read 2 ADC Channels at the same time
 ```
@@ -471,10 +472,16 @@ uint8_t test=123;
 
 ## Juno Bootloader (FDxboot):
 
-A world's fastest bootloader has been developed for V4 very loosely based on AVR109, and new code can be uploaded to board using the following command line, 
+A world's fastest bootloader has been developed for V4 that is very loosely based on AVR109, and different variants of bootloaders have been compiled for the same board. New code can be uploaded to board using the following command lines.
+
+Note: The bootloader is still in beta phase, but its upload speed is the fastest already. EEPROM is not supported yet, and it's a 1k-size bootloader. 
 
 ```
+//Bootloader at 1Mbps (default pre-loaded bootloader)
 avrdude.exe -c avr109 -p m88 -b 1000000 -P COM3 -U flash:w:"hexFile.hex":i -v
+
+//Bootloader at 500kbps (In cause 1Mbps is not stable enough)
+avrdude.exe -c avr109 -p m88 -b 500000 -P COM3 -U flash:w:"hexFile.hex":i -v
 ```
 
 or use my IDE-less batch file on windows, 
