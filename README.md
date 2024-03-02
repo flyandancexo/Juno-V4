@@ -1,11 +1,17 @@
 # Juno V4 - A Ultimate AVR MCU Development Board
 ### LCD ADC Communication SPI UART I2C - new Bootloader AVR109 Butterfly CH340g
 
-Juno V4 doesn't look much from the surface, but it's been crafted with extra-ordinary attention to details with expertly draw copper traces that ensure communications via those channels are stable and bug free. The main thing that V4 does is communication via the 3 hardware serial interface: SPI, UART and I2C. The LCD is also a type of half parallel, half serial, and half duplex interface that with the bits exchanged, miracle happens. The LCD is powered also by extra-ordinary software controlled contrast and backlit, and a very light weight and high quality library. 4 ADC buttons, A potentiometer and a physical switch are included as a way to navigate the board, and as a way to demonstrate high quality and high accurate voltage readings via Analog to Digital Converter.
-
-PS. A world's fastest bootloader has been written for the V4 with a tested maximum upload speed of 45.1 kB/s Write and 51.2 kB/s Read; Indeed, it's a little extra-ordinary. 
+Juno V4 doesn't look much from the surface, but it's been crafted with extra-ordinary attention to details with expertly draw copper traces that ensure communications via those channels are stable and bug free. The main thing that V4 does is communication via the 3 hardware serial interface: SPI, UART and I2C.
 
 ![JunoV4](https://github.com/flyandancexo/Juno-V4/assets/66555404/3377e90b-008e-496b-9c92-183e70125ebf)
+
+The LCD is ordinary, but it's connected in an extra-ordinary way and is powered by extra-ordinary driver. This enables the exploration of the MCU with ease and fun. The LCD is also a type of half parallel, half serial, and half duplex interface that just by coding it, can improve one's low-level and high-level programming skill. The V4 LCD supports both read and write, and the control of LCD contrast and brightness by software. A very light weight and high quality library has been created for it.
+
+4 ADC buttons, A potentiometer and a physical switch are included as a way of navigating the board, and as a way to demonstrate high quality and high accurate voltage readings via Analog to Digital Converter. There are also a big RGB LED and a tiny debug LED and one reset button. Another simple and high quality button and ADC library has been provided for interfacing these hardware stress free.
+
+The infamous CH340g is actually a seriously solid serial chip that connects the MCU to a host computer. A world's fastest bootloader has also been developed for this board, and it has been preloaded on the chip. New code can either be uploaded via the USB port or a 6-pin ICSP header. Finally, the design of the board is of a minimalist and the size of a credit card, yet, it has everything needed to develop advanced MCU application, and more.
+
+![Juno_V4_K](https://github.com/flyandancexo/Juno-V4/assets/66555404/f0530bd6-88cd-44ca-8142-d39c79ed8ff0)
 
 ## Juno V4 - LCD Hardware and LCD Software Features: 
 - 4-bit mode - 9 I/O pins from MCU
