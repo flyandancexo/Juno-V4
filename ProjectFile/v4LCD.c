@@ -1,5 +1,5 @@
 /*###############################################################
-# Advanced 2x16 LCD Code - Implementation File V1.2
+# Advanced 2x16 LCD Code - Implementation File V1.3
 # Note: 4-bit LCD driver with Write and Read Enable
 
 Most LCD operations take 40us, except clear display and return home which take 1.63ms;
@@ -224,12 +224,34 @@ void LCD_writeHex( uint8_t add, uint16_t hexNum, uint8_t len){
 }
 
 //#################################################################################
+//### Write Custom Character to address
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+void LCD_writeCC( uint8_t add, uint8_t cc ){ 
+  LCD_COM(0x80|add); 
+  LCD_RAM( cc );
+}
+
+//#################################################################################
 //### Write text to address
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 void LCD_writeText( uint8_t add, char *text, uint8_t len ){ 
   LCD_COM(0x80|add); 
   for( uint8_t i=0; i<len; i++ ){
     LCD_RAM( text[i] );
+  }
+}
+
+//#################################################################################
+//### Write text from Flash to address
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+void LCD_writeTextFlash( uint8_t add, char *text, uint8_t len ){
+  LCD_COM( 0x80| add );
+  char temp;
+  //write first Custom Character
+  for( uint8_t i=0; i<len; i++ ){
+    temp = pgm_read_byte( &(text[i]) );
+    if( temp < 32 ) { LCD_RAM(' '); }
+    else { LCD_RAM( temp ); }
   }
 }
 
