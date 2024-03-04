@@ -5,7 +5,7 @@
 # An Advanced MCU Project - 2024 © Flyandance
 ################################################################*/
 
-#define F_CPU 8000000UL  // 8 MHz
+#define F_CPU 16000000UL  // 8 MHz
 #include <util/delay.h>
 
 #include <inttypes.h>
