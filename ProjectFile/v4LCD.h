@@ -1,5 +1,5 @@
 /*###############################################################
-# Advanced 2x16 LCD Code - Declaration File V1.2
+# Advanced 2x16 LCD Code - Declaration File V1.3
 # Note: 4-bit LCD driver with Write and Read Enable
 
 //LCD Hardware Connections:
@@ -78,6 +78,8 @@ void LCD_Backlight( uint8_t );
 
 //Write text to address
 void LCD_writeText( uint8_t add, char *text, uint8_t length );
+void LCD_writeTextFlash( uint8_t add, char *text, uint8_t len );
+void LCD_writeCC ( uint8_t add, uint8_t cc );
 
 //Hex and Dec number write 
 void LCD_writeHex( uint8_t add, uint16_t hex, uint8_t length ); //Max:0xFFFF
