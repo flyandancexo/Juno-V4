@@ -24,29 +24,33 @@ The infamous CH340g is actually a seriously solid serial chip that connects the 
 - More Advanced examples are provided plus a simple LCD UI
 - This is the best LCD library in the point of view of a good development board and for the above features
 
-### LCD Functions:
+### LCD Functions Overview:
 
 ```
-//Low Level functions
+//###########################################
+// Juno V4 Functions Overview: 
+//###########################################
+
+V4_initi();          //V4 initialization: LCD, ADC and button
+LCD_init_4bitMode(); //LCD initialization, no ADC and button
+buttonScan();        //Scan 2 ADC channels and polling for button event
+LCD_CO=110;          //LCD contrast 1-110;
+LCD_BL=20;           //LCD brightness level 0-255;
+
+//LCD command and data 
 void LCD_COM( uint8_t comm);      //Write Command
 void LCD_RAM( uint8_t data );     //Write to SRAM
-uint8_t LCD_Read( void );         //Read Data
-uint8_t LCD_Busy( void );         //LCD is busy now (0x80 == busy)
-#define LCD_Wait() while ( LCD_Busy()&0x80 )  //Macro to wait 40us-1.64ms
 
-//Initialization and LCD control
-void LCD_init_4bitMode( void );  //4-bit, 2-line, 5x8, Address++, Display-ON
-void LCD_Contrast( uint8_t );
-void LCD_Backlight( uint8_t );
-
-//Write text to address
+//Write custom character and text to address (valid address 0-0x80) (0x0-0x15) (0x40)
+void LCD_writeCC ( uint8_t add, uint8_t cc );
+void LCD_writeTextFlash( uint8_t add, char *text, uint8_t len );
 void LCD_writeText( uint8_t add, char *text, uint8_t length );
 
-//Hex and Dec number write 
+//write Hex and Dec number
 void LCD_writeHex( uint8_t add, uint16_t hex, uint8_t length ); //Max:0xFFFF
 void LCD_writeDec( uint8_t add, uint16_t num, uint8_t length ); //Max:65535
 
-//Create up to 8 new characters
+//Create up to 8 new characters - (Valid address 0-7)
 void LCD_LoadNewChar( uint8_t *Newchar, uint8_t add );      //From SRAM
 void LCD_LoadNewCharFlash( uint8_t *Newchar, uint8_t add ); //From Flash
 ```
